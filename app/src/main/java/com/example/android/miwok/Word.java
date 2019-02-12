@@ -10,6 +10,7 @@ public class Word
     {
         mDefaultTranslation = defaultTrans;
         mMiwokTranslation = miworkTrans;
+        mImageResourceId = -1;
     }
 
     public Word(String defaultTrans, String miworkTrans, int imageResourceId)
