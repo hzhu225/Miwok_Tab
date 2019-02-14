@@ -27,6 +27,14 @@ import java.util.ArrayList;
 public class NumbersActivity extends AppCompatActivity {
 
     private MediaPlayer player;
+    private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener()
+    {
+        @Override
+        public void onCompletion(MediaPlayer mediaPlayer)
+        {
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +64,24 @@ public class NumbersActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
             {
                 Word word = words.get(position);
+                releaseMediaPlayer();                   //release media player first, so it will stop playing last audio if it is not finished.
                 player = MediaPlayer.create(NumbersActivity.this, word.getAudioResourceId());
                 player.start();
+                player.setOnCompletionListener(completionListener);
             }
         });
+
+    }
+
+    private void releaseMediaPlayer()
+    {
+        if(player!= null)
+        {
+            player.release();
+            player = null;
+        }
+    }
+}
 
 
 
@@ -75,6 +97,4 @@ public class NumbersActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(itemAdapter);
         */
-    }
-}
 
